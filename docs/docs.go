@@ -233,6 +233,49 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/api/payments": {
+            "get": {
+                "tags": [
+                    "payment"
+                ],
+                "summary": "Get all payments",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Payment"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "payment"
+                ],
+                "summary": "Create new payment",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/payments/{id}": {
+            "get": {
+                "tags": [
+                    "payment"
+                ],
+                "summary": "Get payment by ID",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Payment"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -279,6 +322,27 @@ const docTemplate = `{
             }
         },
         "model.Merchant": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string",
+                    "example": "2009-11-10 23:00:00 +0000 UTC m=+0.000000001"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "johndoe@mail.com"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "John Doe"
+                }
+            }
+        },
+        "model.Payment": {
             "type": "object",
             "properties": {
                 "created_at": {

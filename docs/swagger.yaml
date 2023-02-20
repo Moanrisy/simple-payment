@@ -44,6 +44,21 @@ definitions:
         example: John Doe
         type: string
     type: object
+  model.Payment:
+    properties:
+      created_at:
+        example: 2009-11-10 23:00:00 +0000 UTC m=+0.000000001
+        type: string
+      email:
+        example: johndoe@mail.com
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: John Doe
+        type: string
+    type: object
 info:
   contact: {}
   title: Simple Payment API
@@ -186,4 +201,31 @@ paths:
       summary: Update merchant by ID
       tags:
       - merchant
+  /api/payments:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Payment'
+      summary: Get all payments
+      tags:
+      - payment
+    post:
+      responses:
+        "200":
+          description: OK
+      summary: Create new payment
+      tags:
+      - payment
+  /api/payments/{id}:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Payment'
+      summary: Get payment by ID
+      tags:
+      - payment
 swagger: "2.0"

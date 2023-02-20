@@ -19,6 +19,7 @@ func (s *Server) initController() {
 	controller.NewCustomerController(publicRoute)
 	controller.NewMerchantController(publicRoute)
 	controller.NewBankController(publicRoute)
+	controller.NewPaymentController(publicRoute)
 }
 
 func (s *Server) Run() {
