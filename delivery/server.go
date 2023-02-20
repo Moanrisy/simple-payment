@@ -3,7 +3,10 @@ package delivery
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"simple-payment/delivery/controller"
+	_ "simple-payment/docs"
 )
 
 type Server struct {
@@ -12,12 +15,14 @@ type Server struct {
 }
 
 func (s *Server) initController() {
-	publicRoute := s.engine.Group("api")
+	publicRoute := s.engine.Group("/api")
 	controller.NewCustomerController(publicRoute)
 }
 
 func (s *Server) Run() {
 	s.initController()
+
+	s.engine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	if err := s.engine.Run(s.host); err != nil {
 		panic(err)

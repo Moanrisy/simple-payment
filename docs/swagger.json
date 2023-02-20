@@ -1,0 +1,90 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Simple Payment API",
+        "contact": {}
+    },
+    "paths": {
+        "/api/customers": {
+            "get": {
+                "summary": "Get all customers",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Customer"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create new customer",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/customers/id": {
+            "put": {
+                "summary": "Update customer by ID",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Customer"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/customers/{id}": {
+            "get": {
+                "summary": "Get customer by ID",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Customer"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete customer by ID",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Customer"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "model.Customer": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string",
+                    "example": "2009-11-10 23:00:00 +0000 UTC m=+0.000000001"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "johndoe@mail.com"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "John Doe"
+                }
+            }
+        }
+    }
+}
