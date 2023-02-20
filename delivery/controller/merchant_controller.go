@@ -10,6 +10,7 @@ type MerchantController struct {
 }
 
 // @Summary Get all merchants
+// @Tags merchant
 // @Success 200 {object} model.Merchant
 // @Router /api/merchants [get]
 func (cc *MerchantController) getMerchants(ctx *gin.Context) {
@@ -20,6 +21,7 @@ func (cc *MerchantController) getMerchants(ctx *gin.Context) {
 }
 
 // @Summary Create new merchant
+// @Tags merchant
 // @Success 200
 // @Router /api/merchants [post]
 func (cc *MerchantController) createNewMerchant(ctx *gin.Context) {
@@ -30,6 +32,7 @@ func (cc *MerchantController) createNewMerchant(ctx *gin.Context) {
 }
 
 // @Summary Get merchant by ID
+// @Tags merchant
 // @Success 200 {object} model.Merchant
 // @Router /api/merchants/{id} [get]
 func (cc *MerchantController) getMerchantById(ctx *gin.Context) {
@@ -40,6 +43,7 @@ func (cc *MerchantController) getMerchantById(ctx *gin.Context) {
 }
 
 // @Summary Update merchant by ID
+// @Tags merchant
 // @Success 200 {object} model.Merchant
 // @Router /api/merchants/id [put]
 func (cc *MerchantController) updateMerchantById(ctx *gin.Context) {
@@ -50,6 +54,7 @@ func (cc *MerchantController) updateMerchantById(ctx *gin.Context) {
 }
 
 // @Summary Delete merchant by ID
+// @Tags merchant
 // @Success 200 {object} model.Merchant
 // @Router /api/merchants/{id} [delete]
 func (cc *MerchantController) deleteMerchantById(ctx *gin.Context) {

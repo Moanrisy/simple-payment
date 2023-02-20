@@ -17,6 +17,9 @@ const docTemplate = `{
     "paths": {
         "/api/customers": {
             "get": {
+                "tags": [
+                    "customer"
+                ],
                 "summary": "Get all customers",
                 "responses": {
                     "200": {
@@ -28,6 +31,9 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "tags": [
+                    "customer"
+                ],
                 "summary": "Create new customer",
                 "responses": {
                     "200": {
@@ -38,6 +44,9 @@ const docTemplate = `{
         },
         "/api/customers/id": {
             "put": {
+                "tags": [
+                    "customer"
+                ],
                 "summary": "Update customer by ID",
                 "responses": {
                     "200": {
@@ -51,6 +60,9 @@ const docTemplate = `{
         },
         "/api/customers/{id}": {
             "get": {
+                "tags": [
+                    "customer"
+                ],
                 "summary": "Get customer by ID",
                 "responses": {
                     "200": {
@@ -62,6 +74,9 @@ const docTemplate = `{
                 }
             },
             "delete": {
+                "tags": [
+                    "customer"
+                ],
                 "summary": "Delete customer by ID",
                 "responses": {
                     "200": {
@@ -72,10 +87,104 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/api/merchants": {
+            "get": {
+                "tags": [
+                    "merchant"
+                ],
+                "summary": "Get all merchants",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Merchant"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "merchant"
+                ],
+                "summary": "Create new merchant",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/merchants/id": {
+            "put": {
+                "tags": [
+                    "merchant"
+                ],
+                "summary": "Update merchant by ID",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Merchant"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/merchants/{id}": {
+            "get": {
+                "tags": [
+                    "merchant"
+                ],
+                "summary": "Get merchant by ID",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Merchant"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "merchant"
+                ],
+                "summary": "Delete merchant by ID",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Merchant"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
         "model.Customer": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string",
+                    "example": "2009-11-10 23:00:00 +0000 UTC m=+0.000000001"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "johndoe@mail.com"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "John Doe"
+                }
+            }
+        },
+        "model.Merchant": {
             "type": "object",
             "properties": {
                 "created_at": {

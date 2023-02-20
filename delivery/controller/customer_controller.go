@@ -10,6 +10,7 @@ type CustomerController struct {
 }
 
 // @Summary Get all customers
+// @Tags customer
 // @Success 200 {object} model.Customer
 // @Router /api/customers [get]
 func (cc *CustomerController) getCustomers(ctx *gin.Context) {
@@ -20,6 +21,7 @@ func (cc *CustomerController) getCustomers(ctx *gin.Context) {
 }
 
 // @Summary Create new customer
+// @Tags customer
 // @Success 200
 // @Router /api/customers [post]
 func (cc *CustomerController) createNewCustomer(ctx *gin.Context) {
@@ -30,6 +32,7 @@ ctx.JSON(http.StatusOK, gin.H{
 }
 
 // @Summary Get customer by ID
+// @Tags customer
 // @Success 200 {object} model.Customer
 // @Router /api/customers/{id} [get]
 func (cc *CustomerController) getCustomerById(ctx *gin.Context) {
@@ -40,6 +43,7 @@ func (cc *CustomerController) getCustomerById(ctx *gin.Context) {
 }
 
 // @Summary Update customer by ID
+// @Tags customer
 // @Success 200 {object} model.Customer
 // @Router /api/customers/id [put]
 func (cc *CustomerController) updateCustomerById(ctx *gin.Context) {
@@ -50,6 +54,7 @@ func (cc *CustomerController) updateCustomerById(ctx *gin.Context) {
 }
 
 // @Summary Delete customer by ID
+// @Tags customer
 // @Success 200 {object} model.Customer
 // @Router /api/customers/{id} [delete]
 func (cc *CustomerController) deleteCustomerById(ctx *gin.Context) {

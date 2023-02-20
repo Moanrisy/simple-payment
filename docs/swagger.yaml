@@ -14,6 +14,21 @@ definitions:
         example: John Doe
         type: string
     type: object
+  model.Merchant:
+    properties:
+      created_at:
+        example: 2009-11-10 23:00:00 +0000 UTC m=+0.000000001
+        type: string
+      email:
+        example: johndoe@mail.com
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: John Doe
+        type: string
+    type: object
 info:
   contact: {}
   title: Simple Payment API
@@ -26,11 +41,15 @@ paths:
           schema:
             $ref: '#/definitions/model.Customer'
       summary: Get all customers
+      tags:
+      - customer
     post:
       responses:
         "200":
           description: OK
       summary: Create new customer
+      tags:
+      - customer
   /api/customers/{id}:
     delete:
       responses:
@@ -39,6 +58,8 @@ paths:
           schema:
             $ref: '#/definitions/model.Customer'
       summary: Delete customer by ID
+      tags:
+      - customer
     get:
       responses:
         "200":
@@ -46,6 +67,8 @@ paths:
           schema:
             $ref: '#/definitions/model.Customer'
       summary: Get customer by ID
+      tags:
+      - customer
   /api/customers/id:
     put:
       responses:
@@ -54,4 +77,52 @@ paths:
           schema:
             $ref: '#/definitions/model.Customer'
       summary: Update customer by ID
+      tags:
+      - customer
+  /api/merchants:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Merchant'
+      summary: Get all merchants
+      tags:
+      - merchant
+    post:
+      responses:
+        "200":
+          description: OK
+      summary: Create new merchant
+      tags:
+      - merchant
+  /api/merchants/{id}:
+    delete:
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Merchant'
+      summary: Delete merchant by ID
+      tags:
+      - merchant
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Merchant'
+      summary: Get merchant by ID
+      tags:
+      - merchant
+  /api/merchants/id:
+    put:
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Merchant'
+      summary: Update merchant by ID
+      tags:
+      - merchant
 swagger: "2.0"
