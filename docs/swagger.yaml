@@ -1,4 +1,19 @@
 definitions:
+  model.Bank:
+    properties:
+      created_at:
+        example: 2009-11-10 23:00:00 +0000 UTC m=+0.000000001
+        type: string
+      email:
+        example: johndoe@mail.com
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: John Doe
+        type: string
+    type: object
   model.Customer:
     properties:
       created_at:
@@ -33,6 +48,52 @@ info:
   contact: {}
   title: Simple Payment API
 paths:
+  /api/banks:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Bank'
+      summary: Get all banks
+      tags:
+      - bank
+    post:
+      responses:
+        "200":
+          description: OK
+      summary: Create new bank
+      tags:
+      - bank
+  /api/banks/{id}:
+    delete:
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Bank'
+      summary: Delete bank by ID
+      tags:
+      - bank
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Bank'
+      summary: Get bank by ID
+      tags:
+      - bank
+  /api/banks/id:
+    put:
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Bank'
+      summary: Update bank by ID
+      tags:
+      - bank
   /api/customers:
     get:
       responses:

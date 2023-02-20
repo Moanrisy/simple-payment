@@ -18,6 +18,7 @@ func (s *Server) initController() {
 	publicRoute := s.engine.Group("/api")
 	controller.NewCustomerController(publicRoute)
 	controller.NewMerchantController(publicRoute)
+	controller.NewBankController(publicRoute)
 }
 
 func (s *Server) Run() {

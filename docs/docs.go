@@ -15,6 +15,79 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/banks": {
+            "get": {
+                "tags": [
+                    "bank"
+                ],
+                "summary": "Get all banks",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Bank"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "bank"
+                ],
+                "summary": "Create new bank",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/banks/id": {
+            "put": {
+                "tags": [
+                    "bank"
+                ],
+                "summary": "Update bank by ID",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Bank"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/banks/{id}": {
+            "get": {
+                "tags": [
+                    "bank"
+                ],
+                "summary": "Get bank by ID",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Bank"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "bank"
+                ],
+                "summary": "Delete bank by ID",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Bank"
+                        }
+                    }
+                }
+            }
+        },
         "/api/customers": {
             "get": {
                 "tags": [
@@ -163,6 +236,27 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "model.Bank": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string",
+                    "example": "2009-11-10 23:00:00 +0000 UTC m=+0.000000001"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "johndoe@mail.com"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "John Doe"
+                }
+            }
+        },
         "model.Customer": {
             "type": "object",
             "properties": {
