@@ -17,6 +17,7 @@ type Server struct {
 func (s *Server) initController() {
 	publicRoute := s.engine.Group("/api")
 	controller.NewCustomerController(publicRoute)
+	controller.NewMerchantController(publicRoute)
 }
 
 func (s *Server) Run() {
