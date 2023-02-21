@@ -1,62 +1,52 @@
 definitions:
   model.Bank:
     properties:
-      created_at:
-        example: 2009-11-10 23:00:00 +0000 UTC m=+0.000000001
+      balance:
         type: string
-      email:
-        example: johndoe@mail.com
+      bank_account_number:
         type: string
-      id:
-        example: 1
-        type: integer
-      name:
-        example: John Doe
+      bank_id:
         type: string
     type: object
   model.Customer:
     properties:
+      balance:
+        type: string
       created_at:
-        example: 2009-11-10 23:00:00 +0000 UTC m=+0.000000001
         type: string
-      email:
-        example: johndoe@mail.com
+      customer_id:
         type: string
-      id:
-        example: 1
-        type: integer
       name:
-        example: John Doe
+        type: string
+      user_id:
         type: string
     type: object
   model.Merchant:
     properties:
+      balance:
+        type: string
       created_at:
-        example: 2009-11-10 23:00:00 +0000 UTC m=+0.000000001
         type: string
-      email:
-        example: johndoe@mail.com
+      merchant_id:
         type: string
-      id:
-        example: 1
-        type: integer
       name:
-        example: John Doe
+        type: string
+      user_id:
         type: string
     type: object
   model.Payment:
     properties:
+      amount:
+        type: string
+      bank_account_number:
+        type: string
       created_at:
-        example: 2009-11-10 23:00:00 +0000 UTC m=+0.000000001
         type: string
-      email:
-        example: johndoe@mail.com
+      payment_id:
         type: string
-      id:
-        example: 1
-        type: integer
-      name:
-        example: John Doe
+      receiver_id:
+        type: string
+      sender_id:
         type: string
     type: object
 info:

@@ -282,84 +282,77 @@ const docTemplate = `{
         "model.Bank": {
             "type": "object",
             "properties": {
-                "created_at": {
-                    "type": "string",
-                    "example": "2009-11-10 23:00:00 +0000 UTC m=+0.000000001"
+                "balance": {
+                    "type": "string"
                 },
-                "email": {
-                    "type": "string",
-                    "example": "johndoe@mail.com"
+                "bank_account_number": {
+                    "type": "string"
                 },
-                "id": {
-                    "type": "integer",
-                    "example": 1
-                },
-                "name": {
-                    "type": "string",
-                    "example": "John Doe"
+                "bank_id": {
+                    "type": "string"
                 }
             }
         },
         "model.Customer": {
             "type": "object",
             "properties": {
+                "balance": {
+                    "type": "string"
+                },
                 "created_at": {
-                    "type": "string",
-                    "example": "2009-11-10 23:00:00 +0000 UTC m=+0.000000001"
+                    "type": "string"
                 },
-                "email": {
-                    "type": "string",
-                    "example": "johndoe@mail.com"
-                },
-                "id": {
-                    "type": "integer",
-                    "example": 1
+                "customer_id": {
+                    "type": "string"
                 },
                 "name": {
-                    "type": "string",
-                    "example": "John Doe"
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
                 }
             }
         },
         "model.Merchant": {
             "type": "object",
             "properties": {
+                "balance": {
+                    "type": "string"
+                },
                 "created_at": {
-                    "type": "string",
-                    "example": "2009-11-10 23:00:00 +0000 UTC m=+0.000000001"
+                    "type": "string"
                 },
-                "email": {
-                    "type": "string",
-                    "example": "johndoe@mail.com"
-                },
-                "id": {
-                    "type": "integer",
-                    "example": 1
+                "merchant_id": {
+                    "type": "string"
                 },
                 "name": {
-                    "type": "string",
-                    "example": "John Doe"
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string"
                 }
             }
         },
         "model.Payment": {
             "type": "object",
             "properties": {
+                "amount": {
+                    "type": "string"
+                },
+                "bank_account_number": {
+                    "type": "string"
+                },
                 "created_at": {
-                    "type": "string",
-                    "example": "2009-11-10 23:00:00 +0000 UTC m=+0.000000001"
+                    "type": "string"
                 },
-                "email": {
-                    "type": "string",
-                    "example": "johndoe@mail.com"
+                "payment_id": {
+                    "type": "string"
                 },
-                "id": {
-                    "type": "integer",
-                    "example": 1
+                "receiver_id": {
+                    "type": "string"
                 },
-                "name": {
-                    "type": "string",
-                    "example": "John Doe"
+                "sender_id": {
+                    "type": "string"
                 }
             }
         }
