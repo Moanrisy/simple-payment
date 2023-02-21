@@ -3,9 +3,10 @@ package model
 import "time"
 
 type Payment struct {
-	Id               int       `db:"id" uri:"id" example:"1"`
-	Name             string    `db:"name" json:"name" example:"John Doe"`
-	Password         string    `db:"password" json:"password" swaggerignore:"true"`
-	Email            string    `db:"email" json:"email" example:"johndoe@mail.com"`
-	CreatedAt        time.Time `db:"created_at" json:"created_at" example:"2009-11-10 23:00:00 +0000 UTC m=+0.000000001"`
+	PaymentId         string    `json:"payment_id" db:"payment_id"`
+	SenderId          string    `json:"sender_id" db:"sender_id"`
+	ReceiverId        string    `json:"receiver_id" db:"receiver_id"`
+	Amount            string    `json:"amount" db:"amount"`
+	BankAccountNumber string    `json:"bank_account_number" db:"bank_account_number"`
+	CreatedAt         time.Time `json:"created_at" db:"created_at"`
 }
