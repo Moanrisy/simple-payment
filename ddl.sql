@@ -8,7 +8,7 @@ CREATE TABLE customers (
     customer_id SERIAL PRIMARY KEY,
     user_id INTEGER UNIQUE NOT NULL REFERENCES users(user_id),
 	name VARCHAR(255),
-    balance DECIMAL(10,2) NOT NULL DEFAULT 0,
+    balance DECIMAL(10,0) NOT NULL DEFAULT 0,
 	created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
@@ -16,21 +16,21 @@ CREATE TABLE merchants (
     merchant_id SERIAL PRIMARY KEY,
     user_id INTEGER UNIQUE NOT NULL REFERENCES users(user_id),
 	name VARCHAR(255),
-    balance DECIMAL(10,2) NOT NULL DEFAULT 0,
+    balance DECIMAL(10,0) NOT NULL DEFAULT 0,
 	created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE banks (
     bank_id SERIAL PRIMARY KEY,
 	bank_account_number TEXT NOT NULL UNIQUE,
-    balance DECIMAL(10,2) NOT NULL DEFAULT 0
+    balance DECIMAL(10,0) NOT NULL DEFAULT 0
 );
 
 CREATE TABLE payments (
   payment_id SERIAL PRIMARY KEY,
   sender_id INT NOT NULL REFERENCES customers(user_id) CHECK (sender_id <> receiver_id),
   receiver_id INT NOT NULL REFERENCES merchants(user_id),
-  amount DECIMAL(10, 2) NOT NULL CHECK (amount > 0),
+  amount DECIMAL(10, 0) NOT NULL CHECK (amount > 0),
   bank_account_number TEXT REFERENCES banks(bank_account_number),
   created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
@@ -63,3 +63,7 @@ WITH models AS (
 )
 SELECT 'type ' || table_name || E' struct {\n' || fields || E'\n}' models
 FROM models ORDER BY 1
+
+INSERT INTO users (email, password) VALUES ('johndoe@mail.com', 'qwerty123');
+INSERT INTO users (email, password) VALUES ('johndoe2@mail.com', 'qwerty123');
+SELECT * FROM customers;
