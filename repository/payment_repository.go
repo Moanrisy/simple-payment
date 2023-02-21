@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"errors"
 	"github.com/jmoiron/sqlx"
 	"simple-payment/model"
 	"simple-payment/util"
@@ -17,13 +18,83 @@ type paymentRepository struct {
 }
 
 func (cr *paymentRepository) Insert(payment *model.Payment) error {
-	createdPayment := new(model.Payment)
-	row := cr.db.QueryRowx(util.CREATE_PAYMENT, payment.SenderId, payment.ReceiverId, payment.Amount, payment.BankAccountNumber, payment.CreatedAt)
-	if err := row.StructScan(createdPayment); err != nil {
+
+	tx := cr.db.MustBegin()
+
+	// reduce customer balance and increase bank balance
+	customer := new(model.Customer)
+	if err := tx.Get(customer, util.READ_CUSTOMER, payment.SenderId); err != nil {
+		err = tx.Rollback()
+		err = errors.New("Customer not found")
+		return err
+	}
+	customer.Balance = customer.Balance - payment.Amount
+	if customer.Balance < 0 {
+		err := tx.Rollback()
+		err = errors.New("Insufficient customer balance")
+		return err
+	}
+	_, err := tx.Exec(util.UPDATE_CUSTOMER_BALANCE, customer.Balance, payment.SenderId)
+	if err != nil {
+		err := tx.Rollback()
+		err = errors.New("Failed reducing customer balance")
 		return err
 	}
 
-	return nil
+	bank := new(model.Bank)
+	if err := tx.Get(bank, util.READ_BANK_BY_ACCOUNT_NUMBER, payment.BankAccountNumber); err != nil {
+		err = tx.Rollback()
+		err = errors.New("Bank not found")
+		return err
+	}
+	bank.Balance = bank.Balance + payment.Amount
+	_, err = tx.Exec(util.UPDATE_BANK_BALANCE, bank.Balance, payment.BankAccountNumber)
+	if err != nil {
+		err := tx.Rollback()
+		err = errors.New("Failed increasing bank balance")
+		return err
+	}
+
+	// increase merchant balance and reduce bank balance
+	merchant := new(model.Merchant)
+	if err := tx.Get(merchant, util.READ_MERCHANT, payment.ReceiverId); err != nil {
+		err = tx.Rollback()
+		err = errors.New("Merchant not found")
+		return err
+	}
+	merchant.Balance = merchant.Balance + payment.Amount
+	_, err = tx.Exec(util.UPDATE_MERCHANT_BALANCE, merchant.Balance, payment.ReceiverId)
+	if err != nil {
+		err := tx.Rollback()
+		err = errors.New("Failed increasing merchant balance")
+		return err
+	}
+
+	if err := tx.Get(bank, util.READ_BANK_BY_ACCOUNT_NUMBER, payment.BankAccountNumber); err != nil {
+		err = tx.Rollback()
+		err = errors.New("Bank not found")
+		return err
+	}
+	bank.Balance = bank.Balance - payment.Amount
+	_, err = tx.Exec(util.UPDATE_BANK_BALANCE, bank.Balance, payment.BankAccountNumber)
+	if err != nil {
+		err := tx.Rollback()
+		err = errors.New("Failed reducing bank balance")
+		return err
+	}
+
+	// insert payment if all previous steps are successful
+	createdPayment := new(model.Payment)
+	row := cr.db.QueryRowx(util.CREATE_PAYMENT, payment.SenderId, payment.ReceiverId, payment.Amount, payment.BankAccountNumber, payment.CreatedAt)
+	if err := row.StructScan(createdPayment); err != nil {
+		err = tx.Rollback()
+		err = errors.New("Failed inserting payment")
+		return err
+	}
+
+	err = tx.Commit()
+
+	return err
 }
 
 func (cr *paymentRepository) Payments() (*[]model.Payment, error) {

@@ -37,7 +37,7 @@ func (cc *PaymentController) getPayments(ctx *gin.Context) {
 
 // @Summary Create new payment
 // @Tags payment
-// @Param string body model.PaymentRequest true "Payment"
+// @Param string body model.PaymentRequest{amount=int} true "Payment"
 // @Success 200 {object} model.PaymentResponse
 // @Failure 400
 // @Router /api/payments [post]
