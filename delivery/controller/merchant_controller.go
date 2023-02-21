@@ -114,7 +114,7 @@ func (cc *MerchantController) getMerchantById(ctx *gin.Context) {
 // @Summary Delete merchant by ID
 // @Tags merchant
 // @Param id path int true "Merchant ID"
-// @Success 200 {object} model.Merchant
+// @Success 200
 // @Router /api/merchants/{id} [delete]
 func (cc *MerchantController) deleteMerchantById(ctx *gin.Context) {
 	merchantId, err := strconv.Atoi(ctx.Param("id"))

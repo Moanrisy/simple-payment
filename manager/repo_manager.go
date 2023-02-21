@@ -5,6 +5,7 @@ import "simple-payment/repository"
 type RepositoryManager interface {
 	CustomerRepository() repository.CustomerRepository
 	MerchantRepository() repository.MerchantRepository
+	BankRepository() repository.BankRepository
 }
 
 type repositoryManager struct {
@@ -17,6 +18,10 @@ func (rm *repositoryManager) CustomerRepository() repository.CustomerRepository 
 
 func (rm *repositoryManager) MerchantRepository() repository.MerchantRepository {
 	return repository.NewMerchantRepository(rm.infra.SqlDB())
+}
+
+func (rm *repositoryManager) BankRepository() repository.BankRepository {
+	return repository.NewBankRepository(rm.infra.SqlDB())
 }
 
 func NewRepositoryManager(infra InfraManager) RepositoryManager {

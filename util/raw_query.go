@@ -21,9 +21,9 @@ const (
 	DELETE_MERCHANT = `DELETE FROM merchants WHERE merchant_id = $1;`
 
 	// BANKS
-	CREATE_BANK = `INSERT INTO banks(bank_account_number, balance) VALUES($1, $2) RETURNING bank_id;`
-	READ_BANK   = `SELECT bank_id, bank_account_number, balance FROM banks WHERE bank_id = $1;`
-	UPDATE_BANK = `UPDATE banks SET balance = $1 WHERE bank_id = $2;`
+	ALL_BANK    = `SELECT * FROM banks;`
+	CREATE_BANK = `INSERT INTO banks(bank_account_number, name) VALUES($1, $2) RETURNING bank_id;`
+	READ_BANK   = `SELECT bank_id, name, bank_account_number, balance FROM banks WHERE bank_id = $1;`
 	DELETE_BANK = `DELETE FROM banks WHERE bank_id = $1;`
 
 	// PAYMENTS

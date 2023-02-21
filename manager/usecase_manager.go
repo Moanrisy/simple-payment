@@ -5,6 +5,7 @@ import "simple-payment/usecase"
 type UseCaseManager interface {
 	CustomerUseCase() usecase.CustomerUseCase
 	MerchantUseCase() usecase.MerchantUseCase
+	BankUseCase() usecase.BankUseCase
 }
 
 type useCaseManager struct {
@@ -17,6 +18,10 @@ func (u *useCaseManager) CustomerUseCase() usecase.CustomerUseCase {
 
 func (u *useCaseManager) MerchantUseCase() usecase.MerchantUseCase {
 	return usecase.NewMerchantUseCase(u.repoManager.MerchantRepository())
+}
+
+func (u *useCaseManager) BankUseCase() usecase.BankUseCase {
+	return usecase.NewBankUseCase(u.repoManager.BankRepository())
 }
 
 func NewUseCaseManager(repoManager RepositoryManager) UseCaseManager {

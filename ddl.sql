@@ -22,6 +22,7 @@ CREATE TABLE merchants (
 
 CREATE TABLE banks (
     bank_id SERIAL PRIMARY KEY,
+	name VARCHAR(255),
 	bank_account_number TEXT NOT NULL UNIQUE,
     balance DECIMAL(10,0) NOT NULL DEFAULT 0
 );

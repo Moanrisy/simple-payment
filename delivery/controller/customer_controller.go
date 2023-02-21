@@ -143,7 +143,7 @@ func (cc *CustomerController) topUpCustomerById(ctx *gin.Context) {
 // @Summary Delete customer by ID
 // @Tags customer
 // @Param id path int true "Customer ID"
-// @Success 200 {object} model.Customer
+// @Success 200
 // @Router /api/customers/{id} [delete]
 func (cc *CustomerController) deleteCustomerById(ctx *gin.Context) {
 	customerId, err := strconv.Atoi(ctx.Param("id"))
