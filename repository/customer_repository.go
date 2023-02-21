@@ -68,6 +68,10 @@ func (cr *customerRepository) TopUp(customer *model.Customer) error {
 }
 
 func (cr *customerRepository) Delete(id int) error {
+	if _, err := cr.db.Exec(util.DELETE_CUSTOMER, id); err != nil {
+		return err
+	}
+
 	return nil
 }
 

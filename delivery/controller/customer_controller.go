@@ -142,12 +142,29 @@ func (cc *CustomerController) topupCustomerById(ctx *gin.Context) {
 
 // @Summary Delete customer by ID
 // @Tags customer
+// @Param id path int true "Customer ID"
 // @Success 200 {object} model.Customer
 // @Router /api/customers/{id} [delete]
 func (cc *CustomerController) deleteCustomerById(ctx *gin.Context) {
+	customerId, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"message": "Failed to parse customer ID",
+			"error":   err.Error(),
+		})
+		return
+	}
+
+	if err := cc.customerUseCase.Delete(customerId); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"message": "Failed to delete customer",
+			"error":   err.Error(),
+		})
+		return
+	}
+
 	ctx.JSON(http.StatusOK, gin.H{
-		"message":   "Delete customer by ID",
-		"customers": "",
+		"message": "Delete customer success",
 	})
 }
 
