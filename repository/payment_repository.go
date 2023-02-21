@@ -25,33 +25,33 @@ func (cr *paymentRepository) Insert(payment *model.Payment) error {
 	customer := new(model.Customer)
 	if err := tx.Get(customer, util.READ_CUSTOMER, payment.SenderId); err != nil {
 		err = tx.Rollback()
-		err = errors.New("Customer not found")
+		err = errors.New("customer not found")
 		return err
 	}
 	customer.Balance = customer.Balance - payment.Amount
 	if customer.Balance < 0 {
 		err := tx.Rollback()
-		err = errors.New("Insufficient customer balance")
+		err = errors.New("insufficient customer balance")
 		return err
 	}
 	_, err := tx.Exec(util.UPDATE_CUSTOMER_BALANCE, customer.Balance, payment.SenderId)
 	if err != nil {
 		err := tx.Rollback()
-		err = errors.New("Failed reducing customer balance")
+		err = errors.New("failed reducing customer balance")
 		return err
 	}
 
 	bank := new(model.Bank)
 	if err := tx.Get(bank, util.READ_BANK_BY_ACCOUNT_NUMBER, payment.BankAccountNumber); err != nil {
 		err = tx.Rollback()
-		err = errors.New("Bank not found")
+		err = errors.New("bank not found")
 		return err
 	}
 	bank.Balance = bank.Balance + payment.Amount
 	_, err = tx.Exec(util.UPDATE_BANK_BALANCE, bank.Balance, payment.BankAccountNumber)
 	if err != nil {
 		err := tx.Rollback()
-		err = errors.New("Failed increasing bank balance")
+		err = errors.New("failed increasing bank balance")
 		return err
 	}
 
@@ -59,27 +59,27 @@ func (cr *paymentRepository) Insert(payment *model.Payment) error {
 	merchant := new(model.Merchant)
 	if err := tx.Get(merchant, util.READ_MERCHANT, payment.ReceiverId); err != nil {
 		err = tx.Rollback()
-		err = errors.New("Merchant not found")
+		err = errors.New("merchant not found")
 		return err
 	}
 	merchant.Balance = merchant.Balance + payment.Amount
 	_, err = tx.Exec(util.UPDATE_MERCHANT_BALANCE, merchant.Balance, payment.ReceiverId)
 	if err != nil {
 		err := tx.Rollback()
-		err = errors.New("Failed increasing merchant balance")
+		err = errors.New("failed increasing merchant balance")
 		return err
 	}
 
 	if err := tx.Get(bank, util.READ_BANK_BY_ACCOUNT_NUMBER, payment.BankAccountNumber); err != nil {
 		err = tx.Rollback()
-		err = errors.New("Bank not found")
+		err = errors.New("bank not found")
 		return err
 	}
 	bank.Balance = bank.Balance - payment.Amount
 	_, err = tx.Exec(util.UPDATE_BANK_BALANCE, bank.Balance, payment.BankAccountNumber)
 	if err != nil {
 		err := tx.Rollback()
-		err = errors.New("Failed reducing bank balance")
+		err = errors.New("failed reducing bank balance")
 		return err
 	}
 
@@ -88,7 +88,7 @@ func (cr *paymentRepository) Insert(payment *model.Payment) error {
 	row := cr.db.QueryRowx(util.CREATE_PAYMENT, payment.SenderId, payment.ReceiverId, payment.Amount, payment.BankAccountNumber, payment.CreatedAt)
 	if err := row.StructScan(createdPayment); err != nil {
 		err = tx.Rollback()
-		err = errors.New("Failed inserting payment")
+		err = errors.New("failed inserting payment")
 		return err
 	}
 
