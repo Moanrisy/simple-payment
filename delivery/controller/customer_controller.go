@@ -3,10 +3,14 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"simple-payment/model"
+	"simple-payment/usecase"
+	"time"
 )
 
 type CustomerController struct {
-	rg *gin.RouterGroup
+	rg              *gin.RouterGroup
+	customerUseCase usecase.CustomerUseCase
 }
 
 // @Summary Get all customers
@@ -15,7 +19,7 @@ type CustomerController struct {
 // @Router /api/customers [get]
 func (cc *CustomerController) getCustomers(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
-		"message": "Get all customers",
+		"message":   "Get all customers",
 		"customers": "",
 	})
 }
@@ -25,8 +29,24 @@ func (cc *CustomerController) getCustomers(ctx *gin.Context) {
 // @Success 200
 // @Router /api/customers [post]
 func (cc *CustomerController) createNewCustomer(ctx *gin.Context) {
-ctx.JSON(http.StatusOK, gin.H{
-		"message": "Create new customer",
+	newCustomer := model.Customer{
+		CustomerId: "1",
+		UserId:     "1",
+		Name:       "John Doe",
+		Balance:    "100000",
+		CreatedAt:  time.Now(),
+	}
+
+	if err := cc.customerUseCase.Insert(&newCustomer); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"message": "Failed to create new customer",
+			"error":   err.Error(),
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"message":   "Create new customer",
 		"customers": "",
 	})
 }
@@ -37,7 +57,7 @@ ctx.JSON(http.StatusOK, gin.H{
 // @Router /api/customers/{id} [get]
 func (cc *CustomerController) getCustomerById(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
-		"message": "Get customer by ID",
+		"message":   "Get customer by ID",
 		"customers": "",
 	})
 }
@@ -48,7 +68,7 @@ func (cc *CustomerController) getCustomerById(ctx *gin.Context) {
 // @Router /api/customers/id [put]
 func (cc *CustomerController) updateCustomerById(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
-		"message": "Update customer by ID",
+		"message":   "Update customer by ID",
 		"customers": "",
 	})
 }
@@ -59,14 +79,15 @@ func (cc *CustomerController) updateCustomerById(ctx *gin.Context) {
 // @Router /api/customers/{id} [delete]
 func (cc *CustomerController) deleteCustomerById(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
-		"message": "Delete customer by ID",
+		"message":   "Delete customer by ID",
 		"customers": "",
 	})
 }
 
-func NewCustomerController(rg *gin.RouterGroup) *CustomerController {
+func NewCustomerController(rg *gin.RouterGroup, customerUseCase usecase.CustomerUseCase) *CustomerController {
 	controller := CustomerController{
-		rg: rg,
+		rg:              rg,
+		customerUseCase: customerUseCase,
 	}
 
 	controller.rg.GET("/customers", controller.getCustomers)
@@ -75,5 +96,5 @@ func NewCustomerController(rg *gin.RouterGroup) *CustomerController {
 	controller.rg.PUT("/customers/:id", controller.updateCustomerById)
 	controller.rg.DELETE("/customers/:id", controller.deleteCustomerById)
 
-	return & controller
+	return &controller
 }
