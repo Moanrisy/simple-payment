@@ -117,7 +117,7 @@ func (cc *CustomerController) getCustomerById(ctx *gin.Context) {
 // @Param object body model.TopUpRequest{balance=int} true "TopUp"
 // @Success 200 {object} model.Customer
 // @Router /api/customers/id [put]
-func (cc *CustomerController) topupCustomerById(ctx *gin.Context) {
+func (cc *CustomerController) topUpCustomerById(ctx *gin.Context) {
 	customer := new(model.Customer)
 
 	if err := ctx.ShouldBindJSON(customer); err != nil {
@@ -177,7 +177,7 @@ func NewCustomerController(rg *gin.RouterGroup, customerUseCase usecase.Customer
 	controller.rg.GET("/customers", controller.getCustomers)
 	controller.rg.POST("/customers", controller.createNewCustomer)
 	controller.rg.GET("/customers/:id", controller.getCustomerById)
-	controller.rg.PUT("/customers/:id", controller.topupCustomerById)
+	controller.rg.PUT("/customers/:id", controller.topUpCustomerById)
 	controller.rg.DELETE("/customers/:id", controller.deleteCustomerById)
 
 	return &controller
