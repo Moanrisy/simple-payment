@@ -5,6 +5,110 @@
         "contact": {}
     },
     "paths": {
+        "/api/banks": {
+            "get": {
+                "tags": [
+                    "Bank endpoints"
+                ],
+                "summary": "Get all banks",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.BankResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/model.Bank"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Bank endpoints"
+                ],
+                "summary": "Create new bank",
+                "parameters": [
+                    {
+                        "description": "Bank",
+                        "name": "string",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.BankRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.BankResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
+        "/api/banks/{id}": {
+            "get": {
+                "tags": [
+                    "Bank endpoints"
+                ],
+                "summary": "Get bank by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Bank ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Bank"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Bank endpoints"
+                ],
+                "summary": "Delete bank by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Bank ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
         "/api/customers": {
             "get": {
                 "tags": [
@@ -251,9 +355,132 @@
                     }
                 }
             }
+        },
+        "/api/payments": {
+            "get": {
+                "tags": [
+                    "payment"
+                ],
+                "summary": "Get all payments",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.PaymentResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/model.Payment"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "payment"
+                ],
+                "summary": "Create new payment",
+                "parameters": [
+                    {
+                        "description": "Payment",
+                        "name": "string",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.PaymentRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.PaymentResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
+        "/api/payments/{id}": {
+            "get": {
+                "tags": [
+                    "payment"
+                ],
+                "summary": "Get payment by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Payment ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Payment"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "model.Bank": {
+            "type": "object",
+            "properties": {
+                "balance": {
+                    "type": "string"
+                },
+                "bank_account_number": {
+                    "type": "string"
+                },
+                "bank_id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.BankRequest": {
+            "type": "object",
+            "properties": {
+                "bank_account_number": {
+                    "type": "string",
+                    "example": "12345678"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "Bank BCAX"
+                }
+            }
+        },
+        "model.BankResponse": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
         "model.Customer": {
             "type": "object",
             "properties": {
@@ -330,6 +557,59 @@
             }
         },
         "model.MerchantResponse": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Payment": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "string"
+                },
+                "bank_account_number": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "payment_id": {
+                    "type": "string"
+                },
+                "receiver_id": {
+                    "type": "string"
+                },
+                "sender_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.PaymentRequest": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "string",
+                    "example": "7000"
+                },
+                "bank_account_number": {
+                    "type": "string",
+                    "example": "12345678"
+                },
+                "receiver_id": {
+                    "type": "string",
+                    "example": "1"
+                },
+                "sender_id": {
+                    "type": "string",
+                    "example": "1"
+                }
+            }
+        },
+        "model.PaymentResponse": {
             "type": "object",
             "properties": {
                 "data": {},

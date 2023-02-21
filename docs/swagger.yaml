@@ -1,4 +1,30 @@
 definitions:
+  model.Bank:
+    properties:
+      balance:
+        type: string
+      bank_account_number:
+        type: string
+      bank_id:
+        type: string
+      name:
+        type: string
+    type: object
+  model.BankRequest:
+    properties:
+      bank_account_number:
+        example: "12345678"
+        type: string
+      name:
+        example: Bank BCAX
+        type: string
+    type: object
+  model.BankResponse:
+    properties:
+      data: {}
+      message:
+        type: string
+    type: object
   model.Customer:
     properties:
       balance:
@@ -55,6 +81,42 @@ definitions:
       message:
         type: string
     type: object
+  model.Payment:
+    properties:
+      amount:
+        type: string
+      bank_account_number:
+        type: string
+      created_at:
+        type: string
+      payment_id:
+        type: string
+      receiver_id:
+        type: string
+      sender_id:
+        type: string
+    type: object
+  model.PaymentRequest:
+    properties:
+      amount:
+        example: "7000"
+        type: string
+      bank_account_number:
+        example: "12345678"
+        type: string
+      receiver_id:
+        example: "1"
+        type: string
+      sender_id:
+        example: "1"
+        type: string
+    type: object
+  model.PaymentResponse:
+    properties:
+      data: {}
+      message:
+        type: string
+    type: object
   model.TopUpRequest:
     properties:
       balance:
@@ -68,6 +130,70 @@ info:
   contact: {}
   title: Simple Payment API
 paths:
+  /api/banks:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.BankResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/model.Bank'
+                  type: array
+              type: object
+      summary: Get all banks
+      tags:
+      - Bank endpoints
+    post:
+      parameters:
+      - description: Bank
+        in: body
+        name: string
+        required: true
+        schema:
+          $ref: '#/definitions/model.BankRequest'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.BankResponse'
+        "400":
+          description: Bad Request
+      summary: Create new bank
+      tags:
+      - Bank endpoints
+  /api/banks/{id}:
+    delete:
+      parameters:
+      - description: Bank ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+      summary: Delete bank by ID
+      tags:
+      - Bank endpoints
+    get:
+      parameters:
+      - description: Bank ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Bank'
+      summary: Get bank by ID
+      tags:
+      - Bank endpoints
   /api/customers:
     get:
       responses:
@@ -218,4 +344,55 @@ paths:
       summary: Get merchant by ID
       tags:
       - merchant
+  /api/payments:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.PaymentResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/model.Payment'
+                  type: array
+              type: object
+      summary: Get all payments
+      tags:
+      - payment
+    post:
+      parameters:
+      - description: Payment
+        in: body
+        name: string
+        required: true
+        schema:
+          $ref: '#/definitions/model.PaymentRequest'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.PaymentResponse'
+        "400":
+          description: Bad Request
+      summary: Create new payment
+      tags:
+      - payment
+  /api/payments/{id}:
+    get:
+      parameters:
+      - description: Payment ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Payment'
+      summary: Get payment by ID
+      tags:
+      - payment
 swagger: "2.0"
