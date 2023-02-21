@@ -244,7 +244,22 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Merchant"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.MerchantResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/model.Merchant"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -254,25 +269,26 @@ const docTemplate = `{
                     "merchant"
                 ],
                 "summary": "Create new merchant",
-                "responses": {
-                    "200": {
-                        "description": "OK"
+                "parameters": [
+                    {
+                        "description": "Merchant",
+                        "name": "string",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.MerchantRequest"
+                        }
                     }
-                }
-            }
-        },
-        "/api/merchants/id": {
-            "put": {
-                "tags": [
-                    "merchant"
                 ],
-                "summary": "Topup merchant by ID",
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Merchant"
+                            "$ref": "#/definitions/model.MerchantResponse"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request"
                     }
                 }
             }
@@ -283,6 +299,15 @@ const docTemplate = `{
                     "merchant"
                 ],
                 "summary": "Get merchant by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Merchant ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -297,6 +322,15 @@ const docTemplate = `{
                     "merchant"
                 ],
                 "summary": "Delete merchant by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Merchant ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -424,6 +458,28 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.MerchantRequest": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "John Doe store"
+                },
+                "user_id": {
+                    "type": "string",
+                    "example": "1"
+                }
+            }
+        },
+        "model.MerchantResponse": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "message": {
                     "type": "string"
                 }
             }
