@@ -6,6 +6,7 @@ type RepositoryManager interface {
 	CustomerRepository() repository.CustomerRepository
 	MerchantRepository() repository.MerchantRepository
 	BankRepository() repository.BankRepository
+	PaymentRepository() repository.PaymentRepository
 }
 
 type repositoryManager struct {
@@ -22,6 +23,10 @@ func (rm *repositoryManager) MerchantRepository() repository.MerchantRepository 
 
 func (rm *repositoryManager) BankRepository() repository.BankRepository {
 	return repository.NewBankRepository(rm.infra.SqlDB())
+}
+
+func (rm *repositoryManager) PaymentRepository() repository.PaymentRepository {
+	return repository.NewPaymentRepository(rm.infra.SqlDB())
 }
 
 func NewRepositoryManager(infra InfraManager) RepositoryManager {

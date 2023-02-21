@@ -22,7 +22,7 @@ func (s *Server) initController() {
 	controller.NewCustomerController(publicRoute, s.useCaseManager.CustomerUseCase())
 	controller.NewMerchantController(publicRoute, s.useCaseManager.MerchantUseCase())
 	controller.NewBankController(publicRoute, s.useCaseManager.BankUseCase())
-	controller.NewPaymentController(publicRoute)
+	controller.NewPaymentController(publicRoute, s.useCaseManager.PaymentUseCase())
 }
 
 func (s *Server) Run() {

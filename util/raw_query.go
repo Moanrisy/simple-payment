@@ -27,8 +27,7 @@ const (
 	DELETE_BANK = `DELETE FROM banks WHERE bank_id = $1;`
 
 	// PAYMENTS
-	CREATE_PAYMENT = `INSERT INTO payments(sender_id, receiver_id, amount, bank_account_number) VALUES($1, $2, $3, $4) RETURNING payment_id;`
+	ALL_PAYMENT    = `SELECT * FROM payments;`
+	CREATE_PAYMENT = `INSERT INTO payments(sender_id, receiver_id, amount, bank_account_number, created_at) VALUES($1, $2, $3, $4, $5) RETURNING payment_id;`
 	READ_PAYMENT   = `SELECT payment_id, sender_id, receiver_id, amount, bank_account_number, created_at FROM payments WHERE payment_id = $1;`
-	UPDATE_PAYMENT = `UPDATE payments SET sender_id = $1, receiver_id = $2, amount = $3, bank_account_number = $4 WHERE payment_id = $5;`
-	DELETE_PAYMENT = `DELETE FROM payments WHERE payment_id = $1;`
 )

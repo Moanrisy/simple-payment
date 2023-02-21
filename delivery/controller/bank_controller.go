@@ -15,7 +15,7 @@ type BankController struct {
 }
 
 // @Summary Get all banks
-// @Tags 3. Bank endpoints
+// @Tags Bank endpoints
 // @success 200 {object} model.BankResponse{data=[]model.Bank}
 // @Router /api/banks [get]
 func (cc *BankController) getBanks(ctx *gin.Context) {
@@ -36,7 +36,7 @@ func (cc *BankController) getBanks(ctx *gin.Context) {
 }
 
 // @Summary Create new bank
-// @Tags 3. Bank endpoints
+// @Tags Bank endpoints
 // @Param string body model.BankRequest true "Bank"
 // @Success 200 {object} model.BankResponse
 // @Failure 400
@@ -72,7 +72,7 @@ func (cc *BankController) createNewBank(ctx *gin.Context) {
 }
 
 // @Summary Get bank by ID
-// @Tags 3. Bank endpoints
+// @Tags Bank endpoints
 // @Param id path int true "Bank ID"
 // @Success 200 {object} model.Bank
 // @Router /api/banks/{id} [get]
@@ -108,7 +108,7 @@ func (cc *BankController) getBankById(ctx *gin.Context) {
 }
 
 // @Summary Delete bank by ID
-// @Tags 3. Bank endpoints
+// @Tags Bank endpoints
 // @Param id path int true "Bank ID"
 // @Success 200
 // @Router /api/banks/{id} [delete]

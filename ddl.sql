@@ -29,7 +29,7 @@ CREATE TABLE banks (
 
 CREATE TABLE payments (
   payment_id SERIAL PRIMARY KEY,
-  sender_id INT NOT NULL REFERENCES customers(user_id) CHECK (sender_id <> receiver_id),
+  sender_id INT NOT NULL REFERENCES customers(user_id),
   receiver_id INT NOT NULL REFERENCES merchants(user_id),
   amount DECIMAL(10, 0) NOT NULL CHECK (amount > 0),
   bank_account_number TEXT REFERENCES banks(bank_account_number),
