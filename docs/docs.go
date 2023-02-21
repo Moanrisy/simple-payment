@@ -98,7 +98,22 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Customer"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.CustomerResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/model.Customer"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -108,9 +123,26 @@ const docTemplate = `{
                     "customer"
                 ],
                 "summary": "Create new customer",
+                "parameters": [
+                    {
+                        "description": "Customer",
+                        "name": "string",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.CustomerRequest"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.CustomerResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
                     }
                 }
             }
@@ -309,6 +341,28 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "user_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.CustomerRequest": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "John Doe"
+                },
+                "user_id": {
+                    "type": "string",
+                    "example": "1"
+                }
+            }
+        },
+        "model.CustomerResponse": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "message": {
                     "type": "string"
                 }
             }

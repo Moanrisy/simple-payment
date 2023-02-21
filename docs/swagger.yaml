@@ -21,6 +21,21 @@ definitions:
       user_id:
         type: string
     type: object
+  model.CustomerRequest:
+    properties:
+      name:
+        example: John Doe
+        type: string
+      user_id:
+        example: "1"
+        type: string
+    type: object
+  model.CustomerResponse:
+    properties:
+      data: {}
+      message:
+        type: string
+    type: object
   model.Merchant:
     properties:
       balance:
@@ -105,14 +120,32 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.Customer'
+            allOf:
+            - $ref: '#/definitions/model.CustomerResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/model.Customer'
+                  type: array
+              type: object
       summary: Get all customers
       tags:
       - customer
     post:
+      parameters:
+      - description: Customer
+        in: body
+        name: string
+        required: true
+        schema:
+          $ref: '#/definitions/model.CustomerRequest'
       responses:
         "200":
           description: OK
+          schema:
+            $ref: '#/definitions/model.CustomerResponse'
+        "400":
+          description: Bad Request
       summary: Create new customer
       tags:
       - customer

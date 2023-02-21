@@ -20,7 +20,7 @@ type customerRepository struct {
 
 func (cr *customerRepository) Insert(customer *model.Customer) error {
 	createdCustomer := new(model.Customer)
-	row := cr.db.QueryRowx(util.CREATE_CUSTOMER, customer.UserId, customer.Name, customer.Balance, customer.CreatedAt)
+	row := cr.db.QueryRowx(util.CREATE_CUSTOMER, customer.UserId, customer.Name, customer.CreatedAt)
 	if err := row.StructScan(createdCustomer); err != nil {
 		return err
 	}
@@ -29,7 +29,13 @@ func (cr *customerRepository) Insert(customer *model.Customer) error {
 }
 
 func (cr *customerRepository) Customers() (*[]model.Customer, error) {
-	return nil, nil
+	customers := new([]model.Customer)
+
+	if err := cr.db.Select(customers, util.ALL_CUSTOMER); err != nil {
+		return nil, err
+	}
+
+	return customers, nil
 }
 
 func (cr *customerRepository) CustomerById(id int) (model.Customer, error) {

@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"simple-payment/model"
 	"simple-payment/usecase"
-	"time"
+	"strings"
 )
 
 type CustomerController struct {
@@ -15,39 +15,63 @@ type CustomerController struct {
 
 // @Summary Get all customers
 // @Tags customer
-// @Success 200 {object} model.Customer
+// @success 200 {object} model.CustomerResponse{data=[]model.Customer}
 // @Router /api/customers [get]
 func (cc *CustomerController) getCustomers(ctx *gin.Context) {
-	ctx.JSON(http.StatusOK, gin.H{
-		"message":   "Get all customers",
-		"customers": "",
-	})
-}
 
-// @Summary Create new customer
-// @Tags customer
-// @Success 200
-// @Router /api/customers [post]
-func (cc *CustomerController) createNewCustomer(ctx *gin.Context) {
-	newCustomer := model.Customer{
-		CustomerId: "1",
-		UserId:     "1",
-		Name:       "John Doe",
-		Balance:    "100000",
-		CreatedAt:  time.Now(),
-	}
+	customers, err := cc.customerUseCase.Customers()
 
-	if err := cc.customerUseCase.Insert(&newCustomer); err != nil {
+	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
-			"message": "Failed to create new customer",
+			"message": "Failed to get customers",
 			"error":   err.Error(),
 		})
 		return
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{
-		"message":   "Create new customer",
-		"customers": "",
+		"message": "Get all customers",
+		"data":    customers,
+	})
+}
+
+// @Summary Create new customer
+// @Tags customer
+// @Param string body model.CustomerRequest true "Customer"
+// @Success 200 {object} model.CustomerResponse
+// @Failure 400
+// @Router /api/customers [post]
+func (cc *CustomerController) createNewCustomer(ctx *gin.Context) {
+	newCustomer := new(model.Customer)
+
+	if err := ctx.ShouldBindJSON(newCustomer); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"message": "Failed to bind JSON",
+			"error":   err.Error(),
+		})
+		return
+	}
+
+	if err := cc.customerUseCase.Insert(newCustomer); err != nil {
+		var errorMessage = err.Error()
+
+		if strings.Contains(err.Error(), "pq: duplicate key value violates unique constraint") {
+			errorMessage = "User with that ID already a customer"
+		}
+
+		if strings.Contains(err.Error(), "pq: insert or update on table") {
+			errorMessage = "User with that ID does not exist, Please sign up first"
+		}
+
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"message": "Failed to create new customer",
+			"error":   errorMessage,
+		})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"message": "Success create new customer",
 	})
 }
 
