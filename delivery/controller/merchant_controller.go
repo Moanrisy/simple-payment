@@ -15,7 +15,7 @@ type MerchantController struct {
 // @Router /api/merchants [get]
 func (cc *MerchantController) getMerchants(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
-		"message": "Get all merchants",
+		"message":   "Get all merchants",
 		"merchants": "",
 	})
 }
@@ -26,7 +26,7 @@ func (cc *MerchantController) getMerchants(ctx *gin.Context) {
 // @Router /api/merchants [post]
 func (cc *MerchantController) createNewMerchant(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
-		"message": "Create new merchant",
+		"message":   "Create new merchant",
 		"merchants": "",
 	})
 }
@@ -37,18 +37,18 @@ func (cc *MerchantController) createNewMerchant(ctx *gin.Context) {
 // @Router /api/merchants/{id} [get]
 func (cc *MerchantController) getMerchantById(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
-		"message": "Get merchant by ID",
+		"message":   "Get merchant by ID",
 		"merchants": "",
 	})
 }
 
-// @Summary Update merchant by ID
+// @Summary Topup merchant by ID
 // @Tags merchant
 // @Success 200 {object} model.Merchant
 // @Router /api/merchants/id [put]
 func (cc *MerchantController) updateMerchantById(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
-		"message": "Update merchant by ID",
+		"message":   "Topup merchant by ID",
 		"merchants": "",
 	})
 }
@@ -59,7 +59,7 @@ func (cc *MerchantController) updateMerchantById(ctx *gin.Context) {
 // @Router /api/merchants/{id} [delete]
 func (cc *MerchantController) deleteMerchantById(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
-		"message": "Delete merchant by ID",
+		"message":   "Delete merchant by ID",
 		"merchants": "",
 	})
 }
@@ -75,5 +75,5 @@ func NewMerchantController(rg *gin.RouterGroup) *MerchantController {
 	controller.rg.PUT("/merchants/:id", controller.updateMerchantById)
 	controller.rg.DELETE("/merchants/:id", controller.deleteMerchantById)
 
-	return & controller
+	return &controller
 }

@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"fmt"
 	"github.com/jmoiron/sqlx"
 	"simple-payment/model"
 	"simple-payment/util"
@@ -9,8 +10,8 @@ import (
 type CustomerRepository interface {
 	Insert(customer *model.Customer) error
 	Customers() (*[]model.Customer, error)
-	CustomerById(id int) (model.Customer, error)
-	Update(customer *model.Customer) error
+	CustomerById(id int) (*model.Customer, error)
+	TopUp(customer *model.Customer) error
 	Delete(id int) error
 }
 
@@ -38,11 +39,31 @@ func (cr *customerRepository) Customers() (*[]model.Customer, error) {
 	return customers, nil
 }
 
-func (cr *customerRepository) CustomerById(id int) (model.Customer, error) {
-	return model.Customer{}, nil
+func (cr *customerRepository) CustomerById(id int) (*model.Customer, error) {
+	customer := new(model.Customer)
+
+	if err := cr.db.Get(customer, util.READ_CUSTOMER, id); err != nil {
+		return nil, err
+	}
+
+	return customer, nil
 }
 
-func (cr *customerRepository) Update(customer *model.Customer) error {
+func (cr *customerRepository) TopUp(customer *model.Customer) error {
+	selectedCustomer := new(model.Customer)
+
+	if err := cr.db.Get(selectedCustomer, util.READ_CUSTOMER, customer.CustomerId); err != nil {
+		return err
+	}
+
+	customer.Balance = selectedCustomer.Balance + customer.Balance
+	fmt.Println("log this")
+	fmt.Println(selectedCustomer.Balance)
+	fmt.Println(customer.Balance)
+
+	if _, err := cr.db.Exec(util.TOPUP_CUSTOMER_BALANCE, customer.Balance, customer.CustomerId); err != nil {
+		return err
+	}
 	return nil
 }
 

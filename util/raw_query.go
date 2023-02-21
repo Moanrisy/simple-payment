@@ -8,11 +8,11 @@ const (
 	DELETE_USER = `DELETE FROM users WHERE user_id = $1;`
 
 	// CUSTOMERS
-	ALL_CUSTOMER    = `SELECT * FROM customers;`
-	CREATE_CUSTOMER = `INSERT INTO customers(user_id, name, created_at) VALUES($1, $2, $3) RETURNING customer_id;`
-	READ_CUSTOMER   = `SELECT customer_id, user_id, name, balance, created_at FROM customers WHERE customer_id = $1;`
-	UPDATE_CUSTOMER = `UPDATE customers SET name = $1, balance = $2 WHERE customer_id = $3;`
-	DELETE_CUSTOMER = `DELETE FROM customers WHERE customer_id = $1;`
+	ALL_CUSTOMER           = `SELECT * FROM customers;`
+	CREATE_CUSTOMER        = `INSERT INTO customers(user_id, name, created_at) VALUES($1, $2, $3) RETURNING customer_id;`
+	READ_CUSTOMER          = `SELECT customer_id, user_id, name, balance, created_at FROM customers WHERE customer_id = $1;`
+	TOPUP_CUSTOMER_BALANCE = `UPDATE customers SET balance = $1 WHERE customer_id = $2;`
+	DELETE_CUSTOMER        = `DELETE FROM customers WHERE customer_id = $1;`
 
 	// MERCHANTS
 	CREATE_MERCHANT = `INSERT INTO merchants(user_id, name, balance, created_at) VALUES($1, $2, $3, $4) RETURNING merchant_id;`

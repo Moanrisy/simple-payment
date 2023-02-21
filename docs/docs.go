@@ -47,7 +47,7 @@ const docTemplate = `{
                 "tags": [
                     "bank"
                 ],
-                "summary": "Update bank by ID",
+                "summary": "Topup bank by ID",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -152,7 +152,30 @@ const docTemplate = `{
                 "tags": [
                     "customer"
                 ],
-                "summary": "Update customer by ID",
+                "summary": "Topup customer by ID",
+                "parameters": [
+                    {
+                        "description": "TopUp",
+                        "name": "object",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.TopUpRequest"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "balance": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -169,6 +192,15 @@ const docTemplate = `{
                     "customer"
                 ],
                 "summary": "Get customer by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Customer ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -225,7 +257,7 @@ const docTemplate = `{
                 "tags": [
                     "merchant"
                 ],
-                "summary": "Update merchant by ID",
+                "summary": "Topup merchant by ID",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -329,7 +361,7 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "balance": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "created_at": {
                     "type": "string"
@@ -407,6 +439,19 @@ const docTemplate = `{
                 },
                 "sender_id": {
                     "type": "string"
+                }
+            }
+        },
+        "model.TopUpRequest": {
+            "type": "object",
+            "properties": {
+                "balance": {
+                    "type": "integer",
+                    "example": 50000
+                },
+                "customer_id": {
+                    "type": "string",
+                    "example": "1"
                 }
             }
         }

@@ -16,7 +16,7 @@ type BankController struct {
 func (cc *BankController) getBanks(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": "Get all banks",
-		"banks": "",
+		"banks":   "",
 	})
 }
 
@@ -27,7 +27,7 @@ func (cc *BankController) getBanks(ctx *gin.Context) {
 func (cc *BankController) createNewBank(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": "Create new bank",
-		"banks": "",
+		"banks":   "",
 	})
 }
 
@@ -38,18 +38,18 @@ func (cc *BankController) createNewBank(ctx *gin.Context) {
 func (cc *BankController) getBankById(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": "Get bank by ID",
-		"banks": "",
+		"banks":   "",
 	})
 }
 
-// @Summary Update bank by ID
+// @Summary Topup bank by ID
 // @Tags bank
 // @Success 200 {object} model.Bank
 // @Router /api/banks/id [put]
 func (cc *BankController) updateBankById(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
-		"message": "Update bank by ID",
-		"banks": "",
+		"message": "Topup bank by ID",
+		"banks":   "",
 	})
 }
 
@@ -60,7 +60,7 @@ func (cc *BankController) updateBankById(ctx *gin.Context) {
 func (cc *BankController) deleteBankById(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": "Delete bank by ID",
-		"banks": "",
+		"banks":   "",
 	})
 }
 
@@ -75,5 +75,5 @@ func NewBankController(rg *gin.RouterGroup) *BankController {
 	controller.rg.PUT("/banks/:id", controller.updateBankById)
 	controller.rg.DELETE("/banks/:id", controller.deleteBankById)
 
-	return & controller
+	return &controller
 }

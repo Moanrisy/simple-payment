@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"simple-payment/model"
 	"simple-payment/usecase"
+	"strconv"
 	"strings"
 )
 
@@ -77,23 +78,65 @@ func (cc *CustomerController) createNewCustomer(ctx *gin.Context) {
 
 // @Summary Get customer by ID
 // @Tags customer
+// @Param id path int true "Customer ID"
 // @Success 200 {object} model.Customer
 // @Router /api/customers/{id} [get]
 func (cc *CustomerController) getCustomerById(ctx *gin.Context) {
+	customerId, err := strconv.Atoi(ctx.Param("id"))
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"message": "Failed to parse customer ID",
+			"error":   err.Error(),
+		})
+		return
+	}
+
+	customer, err := cc.customerUseCase.CustomerById(customerId)
+	if err != nil {
+		errorMessage := err.Error()
+
+		if strings.Contains(err.Error(), "sql: no rows in result set") {
+			errorMessage = "Customer with that ID does not exist"
+		}
+
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"message": "Failed to get customer",
+			"error":   errorMessage,
+		})
+		return
+	}
+
 	ctx.JSON(http.StatusOK, gin.H{
-		"message":   "Get customer by ID",
-		"customers": "",
+		"message":  "Get customer by ID",
+		"customer": customer,
 	})
 }
 
-// @Summary Update customer by ID
+// @Summary Topup customer by ID
 // @Tags customer
+// @Param object body model.TopUpRequest{balance=int} true "TopUp"
 // @Success 200 {object} model.Customer
 // @Router /api/customers/id [put]
-func (cc *CustomerController) updateCustomerById(ctx *gin.Context) {
+func (cc *CustomerController) topupCustomerById(ctx *gin.Context) {
+	customer := new(model.Customer)
+
+	if err := ctx.ShouldBindJSON(customer); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"message": "Failed to bind JSON",
+		})
+		return
+	}
+
+	if err := cc.customerUseCase.TopUpCustomerBalance(customer); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"message": "Failed to topup customer",
+			"error":   err.Error(),
+		})
+		return
+	}
+
 	ctx.JSON(http.StatusOK, gin.H{
-		"message":   "Update customer by ID",
-		"customers": "",
+		"message": "Topup success",
 	})
 }
 
@@ -117,7 +160,7 @@ func NewCustomerController(rg *gin.RouterGroup, customerUseCase usecase.Customer
 	controller.rg.GET("/customers", controller.getCustomers)
 	controller.rg.POST("/customers", controller.createNewCustomer)
 	controller.rg.GET("/customers/:id", controller.getCustomerById)
-	controller.rg.PUT("/customers/:id", controller.updateCustomerById)
+	controller.rg.PUT("/customers/:id", controller.topupCustomerById)
 	controller.rg.DELETE("/customers/:id", controller.deleteCustomerById)
 
 	return &controller

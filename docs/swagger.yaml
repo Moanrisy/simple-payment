@@ -11,7 +11,7 @@ definitions:
   model.Customer:
     properties:
       balance:
-        type: string
+        type: integer
       created_at:
         type: string
       customer_id:
@@ -64,6 +64,15 @@ definitions:
       sender_id:
         type: string
     type: object
+  model.TopUpRequest:
+    properties:
+      balance:
+        example: 50000
+        type: integer
+      customer_id:
+        example: "1"
+        type: string
+    type: object
 info:
   contact: {}
   title: Simple Payment API
@@ -111,7 +120,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.Bank'
-      summary: Update bank by ID
+      summary: Topup bank by ID
       tags:
       - bank
   /api/customers:
@@ -160,6 +169,12 @@ paths:
       tags:
       - customer
     get:
+      parameters:
+      - description: Customer ID
+        in: path
+        name: id
+        required: true
+        type: integer
       responses:
         "200":
           description: OK
@@ -170,12 +185,24 @@ paths:
       - customer
   /api/customers/id:
     put:
+      parameters:
+      - description: TopUp
+        in: body
+        name: object
+        required: true
+        schema:
+          allOf:
+          - $ref: '#/definitions/model.TopUpRequest'
+          - properties:
+              balance:
+                type: integer
+            type: object
       responses:
         "200":
           description: OK
           schema:
             $ref: '#/definitions/model.Customer'
-      summary: Update customer by ID
+      summary: Topup customer by ID
       tags:
       - customer
   /api/merchants:
@@ -221,7 +248,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.Merchant'
-      summary: Update merchant by ID
+      summary: Topup merchant by ID
       tags:
       - merchant
   /api/payments:
