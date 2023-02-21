@@ -15,9 +15,9 @@ const (
 	DELETE_CUSTOMER        = `DELETE FROM customers WHERE customer_id = $1;`
 
 	// MERCHANTS
-	CREATE_MERCHANT = `INSERT INTO merchants(user_id, name, balance, created_at) VALUES($1, $2, $3, $4) RETURNING merchant_id;`
+	ALL_MERCHANT    = `SELECT * FROM merchants;`
+	CREATE_MERCHANT = `INSERT INTO merchants(user_id, name, created_at) VALUES($1, $2, $3) RETURNING merchant_id;`
 	READ_MERCHANT   = `SELECT merchant_id, user_id, name, balance, created_at FROM merchants WHERE merchant_id = $1;`
-	UPDATE_MERCHANT = `UPDATE merchants SET name = $1, balance = $2 WHERE merchant_id = $3;`
 	DELETE_MERCHANT = `DELETE FROM merchants WHERE merchant_id = $1;`
 
 	// BANKS
