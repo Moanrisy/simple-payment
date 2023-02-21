@@ -408,7 +408,19 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.PaymentRequest"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.PaymentRequest"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "amount": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 ],
@@ -456,7 +468,7 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "balance": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "bank_account_number": {
                     "type": "string"
@@ -537,7 +549,7 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "balance": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "created_at": {
                     "type": "string"
@@ -579,7 +591,7 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "amount": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "bank_account_number": {
                     "type": "string"
@@ -602,8 +614,8 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "amount": {
-                    "type": "string",
-                    "example": "7000"
+                    "type": "integer",
+                    "example": 7000
                 },
                 "bank_account_number": {
                     "type": "string",
