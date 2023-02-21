@@ -1,13 +1,4 @@
 definitions:
-  model.Bank:
-    properties:
-      balance:
-        type: string
-      bank_account_number:
-        type: string
-      bank_id:
-        type: string
-    type: object
   model.Customer:
     properties:
       balance:
@@ -64,21 +55,6 @@ definitions:
       message:
         type: string
     type: object
-  model.Payment:
-    properties:
-      amount:
-        type: string
-      bank_account_number:
-        type: string
-      created_at:
-        type: string
-      payment_id:
-        type: string
-      receiver_id:
-        type: string
-      sender_id:
-        type: string
-    type: object
   model.TopUpRequest:
     properties:
       balance:
@@ -92,52 +68,6 @@ info:
   contact: {}
   title: Simple Payment API
 paths:
-  /api/banks:
-    get:
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/model.Bank'
-      summary: Get all banks
-      tags:
-      - bank
-    post:
-      responses:
-        "200":
-          description: OK
-      summary: Create new bank
-      tags:
-      - bank
-  /api/banks/{id}:
-    delete:
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/model.Bank'
-      summary: Delete bank by ID
-      tags:
-      - bank
-    get:
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/model.Bank'
-      summary: Get bank by ID
-      tags:
-      - bank
-  /api/banks/id:
-    put:
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/model.Bank'
-      summary: Topup bank by ID
-      tags:
-      - bank
   /api/customers:
     get:
       responses:
@@ -184,8 +114,6 @@ paths:
       responses:
         "200":
           description: OK
-          schema:
-            $ref: '#/definitions/model.Customer'
       summary: Delete customer by ID
       tags:
       - customer
@@ -272,8 +200,6 @@ paths:
       responses:
         "200":
           description: OK
-          schema:
-            $ref: '#/definitions/model.Merchant'
       summary: Delete merchant by ID
       tags:
       - merchant
@@ -292,31 +218,4 @@ paths:
       summary: Get merchant by ID
       tags:
       - merchant
-  /api/payments:
-    get:
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/model.Payment'
-      summary: Get all payments
-      tags:
-      - payment
-    post:
-      responses:
-        "200":
-          description: OK
-      summary: Create new payment
-      tags:
-      - payment
-  /api/payments/{id}:
-    get:
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/model.Payment'
-      summary: Get payment by ID
-      tags:
-      - payment
 swagger: "2.0"
