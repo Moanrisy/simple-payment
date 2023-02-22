@@ -334,7 +334,7 @@ paths:
               type: object
       summary: Get all histories
       tags:
-      - history
+      - logs history
   /api/merchants:
     get:
       responses:

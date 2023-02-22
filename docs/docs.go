@@ -292,7 +292,7 @@ const docTemplate = `{
         "/api/logs/history": {
             "get": {
                 "tags": [
-                    "history"
+                    "logs history"
                 ],
                 "summary": "Get all histories",
                 "responses": {
