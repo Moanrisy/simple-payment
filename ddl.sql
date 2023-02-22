@@ -36,6 +36,10 @@ CREATE TABLE payments (
   created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
+CREATE TABLE logs_histories (
+  log_message VARCHAR(255)
+)
+
 DROP TABLE IF EXISTS payments, banks, merchants, customers, users;
 
 WITH models AS (
@@ -69,3 +73,4 @@ INSERT INTO users (email, password) VALUES ('johndoe@mail.com', 'qwerty123');
 INSERT INTO users (email, password) VALUES ('johndoe2@mail.com', 'qwerty123');
 SELECT * FROM customers;
 SELECT * FROM banks;
+SELECT * FROM logs_histories;
