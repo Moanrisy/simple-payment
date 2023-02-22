@@ -3,6 +3,7 @@ package util
 const (
 	// USERS
 	CREATE_USER = `INSERT INTO users(email, password) VALUES($1, $2) RETURNING user_id;`
+	LOGIN_USER  = `SELECT * FROM users WHERE email = $1`
 	READ_USER   = `SELECT user_id, email, password FROM users WHERE user_id = $1;`
 	UPDATE_USER = `UPDATE users SET email = $1, password = $2 WHERE user_id = $3;`
 	DELETE_USER = `DELETE FROM users WHERE user_id = $1;`

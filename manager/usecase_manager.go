@@ -1,16 +1,21 @@
 package manager
 
-import "simple-payment/usecase"
+import (
+	"simple-payment/usecase"
+	"simple-payment/util/authenthicator"
+)
 
 type UseCaseManager interface {
 	CustomerUseCase() usecase.CustomerUseCase
 	MerchantUseCase() usecase.MerchantUseCase
 	BankUseCase() usecase.BankUseCase
 	PaymentUseCase() usecase.PaymentUseCase
+	UserUseCase() usecase.UserUseCase
 }
 
 type useCaseManager struct {
-	repoManager RepositoryManager
+	repoManager  RepositoryManager
+	tokenService authenthicator.AccessToken
 }
 
 func (u *useCaseManager) CustomerUseCase() usecase.CustomerUseCase {
@@ -29,8 +34,13 @@ func (u *useCaseManager) PaymentUseCase() usecase.PaymentUseCase {
 	return usecase.NewPaymentUseCase(u.repoManager.PaymentRepository())
 }
 
-func NewUseCaseManager(repoManager RepositoryManager) UseCaseManager {
+func (u *useCaseManager) UserUseCase() usecase.UserUseCase {
+	return usecase.NewUserUseCase(u.repoManager.UserRepository(), u.tokenService)
+}
+
+func NewUseCaseManager(repoManager RepositoryManager, tokenService authenthicator.AccessToken) UseCaseManager {
 	return &useCaseManager{
-		repoManager: repoManager,
+		repoManager:  repoManager,
+		tokenService: tokenService,
 	}
 }

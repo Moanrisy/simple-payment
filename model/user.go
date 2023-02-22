@@ -5,3 +5,8 @@ type User struct {
 	Email    string `json:"email" db:"email"`
 	Password string `json:"password" db:"password"`
 }
+
+type UserRequest struct {
+	Email    string `json:"email" db:"email" example:"johndoe@mail.com"`
+	Password string `json:"password" db:"password" example:"qwerty"`
+}
