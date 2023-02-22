@@ -73,7 +73,7 @@ func (uc *UserController) loginUser(ctx *gin.Context) {
 		return
 	}
 
-	ctx.SetCookie("token", token, 60*60, "/", "localhost:8080", true, true)
+	ctx.SetCookie("token", token, 60*60, "/", "localhost", false, true)
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": "You are logged in",
@@ -88,7 +88,7 @@ func (uc *UserController) loginUser(ctx *gin.Context) {
 // @Router /api/session/logout [post]
 func (uc *UserController) logoutUser(ctx *gin.Context) {
 
-	ctx.SetCookie("token", "", -1, "/", "localhost:8080", true, true)
+	ctx.SetCookie("token", "", -1, "/", "localhost", false, true)
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"message": "You are logged out",
