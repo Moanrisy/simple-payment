@@ -14,7 +14,12 @@ git clone git@github.com:Moanrisy/simple-payment.git
 1. Edit Makefile file to update your env variable (db user, pass, etc)
 
 ### Run project
-1. Make run
+1. Run this command in terminal to run
+
+``` sh
+make run
+```
+
 2. Open http://localhost:8080/swagger/index.html#/
 
 OR if you prefer postman
