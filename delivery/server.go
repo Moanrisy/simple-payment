@@ -43,6 +43,7 @@ func (s *Server) Run() {
 }
 
 func NewServer(host string) *Server {
+	gin.SetMode(gin.ReleaseMode)
 	router := gin.Default()
 
 	conf := config.NewConfig()
