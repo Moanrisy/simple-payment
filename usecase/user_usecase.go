@@ -31,7 +31,7 @@ func (cu *userUseCase) Insert(user *model.User) error {
 func (cu *userUseCase) Login(userCredential model.UserCredential) (token string, err error) {
 	user, err := cu.repo.UserLogin(&userCredential)
 
-	if err != nil && err.Error() == "Invalid password" {
+	if err != nil && err.Error() == "invalid password" {
 		return "", errors.New("invalid password")
 	}
 
