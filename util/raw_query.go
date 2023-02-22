@@ -2,7 +2,8 @@ package util
 
 const (
 	// LOGS HISTORIES
-	CREATE_LOG = `INSERT INTO logs_histories(log_message) VALUES($1)`
+	ALL_HISTORIES = `SELECT * FROM logs_histories;`
+	CREATE_LOG    = `INSERT INTO logs_histories(log_message) VALUES($1);`
 
 	// USERS
 	CREATE_USER = `INSERT INTO users(email, password) VALUES($1, $2) RETURNING user_id;`

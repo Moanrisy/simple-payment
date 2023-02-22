@@ -11,6 +11,7 @@ type UseCaseManager interface {
 	BankUseCase() usecase.BankUseCase
 	PaymentUseCase() usecase.PaymentUseCase
 	UserUseCase() usecase.UserUseCase
+	HistoryUseCase() usecase.HistoryUseCase
 }
 
 type useCaseManager struct {
@@ -36,6 +37,10 @@ func (u *useCaseManager) PaymentUseCase() usecase.PaymentUseCase {
 
 func (u *useCaseManager) UserUseCase() usecase.UserUseCase {
 	return usecase.NewUserUseCase(u.repoManager.UserRepository(), u.tokenService)
+}
+
+func (u *useCaseManager) HistoryUseCase() usecase.HistoryUseCase {
+	return usecase.NewHistoryUseCase(u.repoManager.HistoryRepository())
 }
 
 func NewUseCaseManager(repoManager RepositoryManager, tokenService authenthicator.AccessToken) UseCaseManager {
