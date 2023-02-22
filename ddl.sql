@@ -68,9 +68,3 @@ WITH models AS (
 )
 SELECT 'type ' || table_name || E' struct {\n' || fields || E'\n}' models
 FROM models ORDER BY 1
-
-INSERT INTO users (email, password) VALUES ('johndoe@mail.com', 'qwerty123');
-INSERT INTO users (email, password) VALUES ('johndoe2@mail.com', 'qwerty123');
-SELECT * FROM customers;
-SELECT * FROM banks;
-SELECT * FROM logs_histories;
