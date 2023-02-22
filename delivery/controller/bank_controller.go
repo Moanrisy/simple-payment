@@ -3,6 +3,7 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"simple-payment/delivery/middleware"
 	"simple-payment/model"
 	"simple-payment/usecase"
 	"strconv"
@@ -12,6 +13,7 @@ import (
 type BankController struct {
 	rg          *gin.RouterGroup
 	bankUseCase usecase.BankUseCase
+	tokenMdw    middleware.AuthTokenMiddleware
 }
 
 // @Summary Get all banks
@@ -135,16 +137,19 @@ func (cc *BankController) deleteBankById(ctx *gin.Context) {
 	})
 }
 
-func NewBankController(rg *gin.RouterGroup, bankUseCase usecase.BankUseCase) *BankController {
+func NewBankController(rg *gin.RouterGroup, bankUseCase usecase.BankUseCase, tokenMdw middleware.AuthTokenMiddleware) *BankController {
 	controller := BankController{
 		rg:          rg,
 		bankUseCase: bankUseCase,
+		tokenMdw:    tokenMdw,
 	}
 
-	controller.rg.GET("/banks", controller.getBanks)
-	controller.rg.POST("/banks", controller.createNewBank)
-	controller.rg.GET("/banks/:id", controller.getBankById)
-	controller.rg.DELETE("/banks/:id", controller.deleteBankById)
+	protectedGroup := rg.Group("", tokenMdw.RequiredToken())
+
+	protectedGroup.GET("/banks", controller.getBanks)
+	protectedGroup.POST("/banks", controller.createNewBank)
+	protectedGroup.GET("/banks/:id", controller.getBankById)
+	protectedGroup.DELETE("/banks/:id", controller.deleteBankById)
 
 	return &controller
 }

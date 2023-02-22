@@ -24,9 +24,9 @@ func (s *Server) initController() {
 	publicRoute := s.engine.Group("/api")
 	tokenMdw := middleware.NewTokenValidator(s.tokenService)
 	controller.NewCustomerController(publicRoute, s.useCaseManager.CustomerUseCase(), tokenMdw)
-	controller.NewMerchantController(publicRoute, s.useCaseManager.MerchantUseCase())
-	controller.NewBankController(publicRoute, s.useCaseManager.BankUseCase())
-	controller.NewPaymentController(publicRoute, s.useCaseManager.PaymentUseCase())
+	controller.NewMerchantController(publicRoute, s.useCaseManager.MerchantUseCase(), tokenMdw)
+	controller.NewBankController(publicRoute, s.useCaseManager.BankUseCase(), tokenMdw)
+	controller.NewPaymentController(publicRoute, s.useCaseManager.PaymentUseCase(), tokenMdw)
 	controller.NewUserController(publicRoute, s.useCaseManager.UserUseCase())
 }
 

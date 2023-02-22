@@ -3,6 +3,7 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"simple-payment/delivery/middleware"
 	"simple-payment/model"
 	"simple-payment/usecase"
 	"strconv"
@@ -12,6 +13,7 @@ import (
 type CustomerController struct {
 	rg              *gin.RouterGroup
 	customerUseCase usecase.CustomerUseCase
+	tokenMdw        middleware.AuthTokenMiddleware
 }
 
 // @Summary Get all customers
@@ -168,17 +170,20 @@ func (cc *CustomerController) deleteCustomerById(ctx *gin.Context) {
 	})
 }
 
-func NewCustomerController(rg *gin.RouterGroup, customerUseCase usecase.CustomerUseCase) *CustomerController {
+func NewCustomerController(rg *gin.RouterGroup, customerUseCase usecase.CustomerUseCase, tokenMdw middleware.AuthTokenMiddleware) *CustomerController {
 	controller := CustomerController{
 		rg:              rg,
 		customerUseCase: customerUseCase,
+		tokenMdw:        tokenMdw,
 	}
 
-	controller.rg.GET("/customers", controller.getCustomers)
-	controller.rg.POST("/customers", controller.createNewCustomer)
-	controller.rg.GET("/customers/:id", controller.getCustomerById)
-	controller.rg.PUT("/customers/:id", controller.topUpCustomerById)
-	controller.rg.DELETE("/customers/:id", controller.deleteCustomerById)
+	protectedGroup := rg.Group("", tokenMdw.RequiredToken())
+
+	protectedGroup.GET("/customers", controller.getCustomers)
+	protectedGroup.POST("/customers", controller.createNewCustomer)
+	protectedGroup.GET("/customers/:id", controller.getCustomerById)
+	protectedGroup.PUT("/customers/:id", controller.topUpCustomerById)
+	protectedGroup.DELETE("/customers/:id", controller.deleteCustomerById)
 
 	return &controller
 }

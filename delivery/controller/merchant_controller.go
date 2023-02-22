@@ -3,6 +3,7 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"simple-payment/delivery/middleware"
 	"simple-payment/model"
 	"simple-payment/usecase"
 	"strconv"
@@ -12,6 +13,7 @@ import (
 type MerchantController struct {
 	rg              *gin.RouterGroup
 	merchantUseCase usecase.MerchantUseCase
+	tokenMdw        middleware.AuthTokenMiddleware
 }
 
 // @Summary Get all merchants
@@ -139,16 +141,19 @@ func (cc *MerchantController) deleteMerchantById(ctx *gin.Context) {
 	})
 }
 
-func NewMerchantController(rg *gin.RouterGroup, merchantUseCase usecase.MerchantUseCase) *MerchantController {
+func NewMerchantController(rg *gin.RouterGroup, merchantUseCase usecase.MerchantUseCase, tokenMdw middleware.AuthTokenMiddleware) *MerchantController {
 	controller := MerchantController{
 		rg:              rg,
 		merchantUseCase: merchantUseCase,
+		tokenMdw:        tokenMdw,
 	}
 
-	controller.rg.GET("/merchants", controller.getMerchants)
-	controller.rg.POST("/merchants", controller.createNewMerchant)
-	controller.rg.GET("/merchants/:id", controller.getMerchantById)
-	controller.rg.DELETE("/merchants/:id", controller.deleteMerchantById)
+	protectedGroup := rg.Group("", tokenMdw.RequiredToken())
+
+	protectedGroup.GET("/merchants", controller.getMerchants)
+	protectedGroup.POST("/merchants", controller.createNewMerchant)
+	protectedGroup.GET("/merchants/:id", controller.getMerchantById)
+	protectedGroup.DELETE("/merchants/:id", controller.deleteMerchantById)
 
 	return &controller
 }

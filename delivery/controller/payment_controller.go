@@ -3,6 +3,7 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"simple-payment/delivery/middleware"
 	"simple-payment/model"
 	"simple-payment/usecase"
 	"strconv"
@@ -12,6 +13,7 @@ import (
 type PaymentController struct {
 	rg             *gin.RouterGroup
 	paymentUseCase usecase.PaymentUseCase
+	tokenMdw       middleware.AuthTokenMiddleware
 }
 
 // @Summary Get all payments
@@ -107,15 +109,18 @@ func (cc *PaymentController) getPaymentById(ctx *gin.Context) {
 	})
 }
 
-func NewPaymentController(rg *gin.RouterGroup, paymentUseCase usecase.PaymentUseCase) *PaymentController {
+func NewPaymentController(rg *gin.RouterGroup, paymentUseCase usecase.PaymentUseCase, tokenMdw middleware.AuthTokenMiddleware) *PaymentController {
 	controller := PaymentController{
 		rg:             rg,
 		paymentUseCase: paymentUseCase,
+		tokenMdw:       tokenMdw,
 	}
 
-	controller.rg.GET("/payments", controller.getPayments)
-	controller.rg.POST("/payments", controller.createNewPayment)
-	controller.rg.GET("/payments/:id", controller.getPaymentById)
+	protectedGroup := rg.Group("", tokenMdw.RequiredToken())
+
+	protectedGroup.GET("/payments", controller.getPayments)
+	protectedGroup.POST("/payments", controller.createNewPayment)
+	protectedGroup.GET("/payments/:id", controller.getPaymentById)
 
 	return &controller
 }
