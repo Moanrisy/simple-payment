@@ -126,10 +126,36 @@ definitions:
         example: "1"
         type: string
     type: object
+  model.UserRequest:
+    properties:
+      email:
+        example: johndoe@mail.com
+        type: string
+      password:
+        example: qwerty
+        type: string
+    type: object
 info:
   contact: {}
   title: Simple Payment API
 paths:
+  /api/auth/users:
+    post:
+      parameters:
+      - description: User
+        in: body
+        name: string
+        required: true
+        schema:
+          $ref: '#/definitions/model.UserRequest'
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+      summary: Create new user
+      tags:
+      - Auth user
   /api/banks:
     get:
       responses:
@@ -400,4 +426,31 @@ paths:
       summary: Get payment by ID
       tags:
       - payment
+  /api/session:
+    post:
+      parameters:
+      - description: User
+        in: body
+        name: string
+        required: true
+        schema:
+          $ref: '#/definitions/model.UserRequest'
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+      summary: Login user
+      tags:
+      - Auth user
+  /api/session/logout:
+    post:
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+      summary: Logout user
+      tags:
+      - Auth user
 swagger: "2.0"

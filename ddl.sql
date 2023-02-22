@@ -68,3 +68,4 @@ FROM models ORDER BY 1
 INSERT INTO users (email, password) VALUES ('johndoe@mail.com', 'qwerty123');
 INSERT INTO users (email, password) VALUES ('johndoe2@mail.com', 'qwerty123');
 SELECT * FROM customers;
+SELECT * FROM banks;

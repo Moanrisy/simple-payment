@@ -15,6 +15,33 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/auth/users": {
+            "post": {
+                "tags": [
+                    "Auth user"
+                ],
+                "summary": "Create new user",
+                "parameters": [
+                    {
+                        "description": "User",
+                        "name": "string",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.UserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
         "/api/banks": {
             "get": {
                 "tags": [
@@ -461,6 +488,49 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/api/session": {
+            "post": {
+                "tags": [
+                    "Auth user"
+                ],
+                "summary": "Login user",
+                "parameters": [
+                    {
+                        "description": "User",
+                        "name": "string",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.UserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        },
+        "/api/session/logout": {
+            "post": {
+                "tags": [
+                    "Auth user"
+                ],
+                "summary": "Logout user",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -650,6 +720,19 @@ const docTemplate = `{
                 "customer_id": {
                     "type": "string",
                     "example": "1"
+                }
+            }
+        },
+        "model.UserRequest": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "johndoe@mail.com"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "qwerty"
                 }
             }
         }
