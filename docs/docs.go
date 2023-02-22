@@ -289,6 +289,37 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/logs/history": {
+            "get": {
+                "tags": [
+                    "history"
+                ],
+                "summary": "Get all histories",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.LogHistoryResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/model.LogHistory"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/api/merchants": {
             "get": {
                 "tags": [
@@ -612,6 +643,24 @@ const docTemplate = `{
                 "data": {},
                 "message": {
                     "type": "string"
+                }
+            }
+        },
+        "model.LogHistory": {
+            "type": "object",
+            "properties": {
+                "logMessage": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.LogHistoryResponse": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "message": {
+                    "type": "string",
+                    "example": "Get all history"
                 }
             }
         },

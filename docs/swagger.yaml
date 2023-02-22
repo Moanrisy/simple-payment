@@ -53,6 +53,18 @@ definitions:
       message:
         type: string
     type: object
+  model.LogHistory:
+    properties:
+      logMessage:
+        type: string
+    type: object
+  model.LogHistoryResponse:
+    properties:
+      data: {}
+      message:
+        example: Get all history
+        type: string
+    type: object
   model.Merchant:
     properties:
       balance:
@@ -306,6 +318,23 @@ paths:
       summary: Topup customer by ID
       tags:
       - customer
+  /api/logs/history:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.LogHistoryResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/model.LogHistory'
+                  type: array
+              type: object
+      summary: Get all histories
+      tags:
+      - history
   /api/merchants:
     get:
       responses:
